@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Treino Funcional · New Hit Fitness & Fight</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,700;1,800;1,900&family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  :root {
+    --orange: #FF4704;
+    --orange-light: rgba(255,71,4,0.09);
+    --orange-mid: rgba(255,71,4,0.2);
+    --orange-border: rgba(255,71,4,0.3);
+    --cream: #f7f3ee;
+    --cream2: #f0ebe4;
+    --cream3: #e8e1d8;
+    --cream-dark: #d9d0c5;
+    --ink: #1a1614;
+    --ink2: #2e2824;
+    --ink3: #3d3630;
+    --gray: #8a7f76;
+    --gray-light: #b5ada5;
+    --white: #ffffff;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { font-family:'Barlow',sans-serif; background:var(--cream); color:var(--ink); overflow-x:hidden; }
+  ::-webkit-scrollbar { width:8px; }
+  ::-webkit-scrollbar-track { background:var(--cream2); }
+  ::-webkit-scrollbar-thumb { background:var(--orange); }
+
+  /* ─── NAV ─── */
+  nav { position:fixed; top:0; left:0; right:0; z-index:200; display:flex; align-items:center; justify-content:space-between; padding:22px 64px; transition:all 0.4s; }
+  nav.scrolled { padding:13px 64px; background:rgba(247,243,238,0.97); backdrop-filter:blur(16px); border-bottom:1px solid var(--cream3); box-shadow:0 2px 20px rgba(26,22,20,0.07); }
+  .nav-logo { font-family:'Barlow Condensed',sans-serif; font-size:22px; font-weight:900; letter-spacing:3px; color:var(--ink); text-decoration:none; }
+  .nav-logo span { color:var(--orange); }
+  .nav-logo sub { font-size:10px; font-weight:500; letter-spacing:2px; color:var(--gray); vertical-align:middle; margin-left:8px; text-transform:uppercase; }
+  .nav-right { display:flex; align-items:center; gap:28px; }
+  .nav-link { font-size:12px; font-weight:600; letter-spacing:2px; text-transform:uppercase; color:var(--ink3); text-decoration:none; transition:color 0.2s; }
+  .nav-link:hover { color:var(--orange); }
+  .nav-btn { background:var(--orange); color:var(--white); font-family:'Barlow Condensed',sans-serif; font-size:14px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; padding:10px 24px; text-decoration:none; transition:all 0.2s; clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px)); }
+  .nav-btn:hover { background:#e03d00; transform:translateY(-1px); }
+
+  /* ─── HERO ─── */
+  .hero { position:relative; min-height:100vh; display:grid; grid-template-columns:1fr 1fr; overflow:hidden; }
+  .hero-left { position:relative; z-index:2; background:var(--cream); display:flex; flex-direction:column; justify-content:center; padding:140px 64px 80px; }
+  .hero-left::after { content:''; position:absolute; top:0; right:-70px; bottom:0; width:140px; background:var(--cream); clip-path:polygon(0 0,45% 0,100% 100%,0 100%); z-index:3; }
+  .hero-right { position:relative; overflow:hidden; }
+  .hero-right img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 25%; filter:brightness(0.72) saturate(0.82); transform:scale(1.05); transition:transform 10s ease-out; }
+  .hero-right img.loaded { transform:scale(1); }
+  .hero-right::after { content:''; position:absolute; inset:0; background:linear-gradient(to top,rgba(247,243,238,0.5) 0%,transparent 45%); z-index:1; }
+
+  /* floating stat on photo */
+  .hero-photo-stat { position:absolute; bottom:48px; right:48px; z-index:2; text-align:right; opacity:0; transform:translateY(16px); animation:fadeUp 0.7s 1.1s forwards; }
+  .hps-num { font-family:'Barlow Condensed',sans-serif; font-size:72px; font-weight:900; color:var(--white); line-height:1; text-shadow:0 2px 20px rgba(0,0,0,0.3); }
+  .hps-num span { color:var(--orange); }
+  .hps-label { font-size:11px; color:rgba(255,255,255,0.75); letter-spacing:2.5px; text-transform:uppercase; display:block; margin-top:4px; }
+
+  .hero-eyebrow { display:inline-flex; align-items:center; gap:10px; font-size:11px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--orange); margin-bottom:20px; opacity:0; animation:fadeUp 0.6s 0.2s forwards; }
+  .hero-eyebrow::before { content:''; width:28px; height:2px; background:var(--orange); }
+  .hero-headline { font-family:'Barlow Condensed',sans-serif; font-size:clamp(58px,7vw,104px); font-weight:900; text-transform:uppercase; line-height:0.87; letter-spacing:-1px; color:var(--ink); opacity:0; animation:fadeUp 0.75s 0.35s forwards; }
+  .hero-headline em { font-style:italic; color:var(--orange); display:block; }
+  .hero-headline .thin { font-weight:300; color:var(--gray-light); font-size:0.5em; letter-spacing:4px; display:block; margin-bottom:6px; }
+  .hero-sub { margin-top:22px; font-size:17px; font-weight:400; color:var(--ink3); line-height:1.75; max-width:460px; opacity:0; animation:fadeUp 0.7s 0.5s forwards; }
+  .hero-sub strong { color:var(--ink); font-weight:700; }
+
+  /* resultado chips */
+  .hero-results { display:flex; gap:8px; flex-wrap:wrap; margin-top:24px; opacity:0; animation:fadeUp 0.6s 0.65s forwards; }
+  .result-chip { display:flex; align-items:center; gap:8px; background:var(--cream2); border:1px solid var(--cream3); font-size:11px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; color:var(--ink3); padding:7px 14px; transition:all 0.2s; }
+  .result-chip i { color:var(--orange); font-size:11px; }
+  .result-chip:hover { background:var(--orange-light); border-color:var(--orange-border); color:var(--orange); }
+
+  .hero-ctas { display:flex; align-items:center; gap:14px; margin-top:32px; flex-wrap:wrap; opacity:0; animation:fadeUp 0.7s 0.8s forwards; }
+
+  .btn-primary { background:var(--orange); color:var(--white); font-family:'Barlow Condensed',sans-serif; font-size:17px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; padding:15px 34px; border:none; cursor:pointer; text-decoration:none; display:inline-block; position:relative; overflow:hidden; transition:transform 0.2s; clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px)); }
+  .btn-primary::before { content:''; position:absolute; inset:0; background:rgba(255,255,255,0.13); transform:translateX(-110%) skewX(-15deg); transition:transform 0.4s; }
+  .btn-primary:hover::before { transform:translateX(110%) skewX(-15deg); }
+  .btn-primary:hover { transform:translateY(-2px); }
+  .btn-wa { display:inline-flex; align-items:center; gap:9px; background:rgba(37,211,102,0.08); border:1.5px solid rgba(37,211,102,0.3); color:#16a34a; font-family:'Barlow Condensed',sans-serif; font-size:15px; font-weight:700; letter-spacing:1px; text-transform:uppercase; padding:13px 20px; text-decoration:none; transition:all 0.2s; clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px)); }
+  .btn-wa:hover { background:rgba(37,211,102,0.15); border-color:rgba(37,211,102,0.55); }
+
+  @keyframes fadeUp { to { opacity:1; transform:translateY(0); } }
+
+  /* ─── URGENCY ─── */
+  .urgency { background:var(--orange); padding:13px 64px; display:flex; align-items:center; justify-content:center; gap:20px; }
+  .urgency p { font-family:'Barlow Condensed',sans-serif; font-size:15px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--white); }
+  .urgency-dot { width:5px; height:5px; border-radius:50%; background:rgba(255,255,255,0.5); }
+
+  /* ─── PROOF BAR ─── */
+  .proof-bar { background:var(--ink); padding:26px 64px; display:flex; align-items:center; justify-content:center; gap:52px; }
+  .proof-item { display:flex; align-items:center; gap:14px; }
+  .proof-icon { color:var(--orange); font-size:20px; width:26px; text-align:center; }
+  .proof-val { font-family:'Barlow Condensed',sans-serif; font-size:26px; font-weight:900; color:var(--white); line-height:1; display:block; }
+  .proof-label { font-size:10px; color:rgba(255,255,255,0.4); letter-spacing:1.5px; text-transform:uppercase; display:block; margin-top:2px; }
+  .proof-sep { width:1px; height:36px; background:rgba(255,255,255,0.1); }
+
+  /* ─── HELPERS ─── */
+  .section-label { font-size:11px; font-weight:700; letter-spacing:3px; text-transform:uppercase; color:var(--orange); display:flex; align-items:center; gap:10px; margin-bottom:14px; }
+  .section-label::before { content:''; width:28px; height:2px; background:var(--orange); flex-shrink:0; }
+  .section-title { font-family:'Barlow Condensed',sans-serif; font-size:clamp(40px,4.5vw,62px); font-weight:900; text-transform:uppercase; line-height:0.92; letter-spacing:-0.5px; color:var(--ink); }
+  .section-title em { font-style:italic; color:var(--orange); }
+  .section-title.white { color:var(--white); }
+
+  /* ─── PARA QUEM É ─── */
+  .para-quem { padding:110px 64px; background:var(--cream); }
+  .pq-inner { display:grid; grid-template-columns:1fr 1.5fr; gap:80px; align-items:start; }
+  .pq-left p { margin-top:20px; font-size:16px; color:var(--ink3); line-height:1.8; font-weight:400; }
+  .pq-left p strong { color:var(--ink); font-weight:700; }
+  .nao-para { margin-top:32px; padding:22px 24px; background:var(--cream2); border-left:4px solid var(--cream-dark); }
+  .nao-para p { font-size:13px; color:var(--gray); font-style:italic; line-height:1.6; }
+  .nao-para strong { color:var(--ink3); font-weight:600; }
+
+  .perfil-grid { display:grid; grid-template-columns:1fr 1fr; gap:2px; }
+  .perfil-card { background:var(--white); padding:28px 24px; border:1px solid var(--cream3); border-top:3px solid transparent; transition:all 0.3s; position:relative; }
+  .perfil-card:hover { border-top-color:var(--orange); box-shadow:0 6px 24px rgba(255,71,4,0.08); transform:translateY(-2px); }
+  .perfil-icon { font-size:28px; color:var(--orange); margin-bottom:12px; display:block; }
+  .perfil-title { font-family:'Barlow Condensed',sans-serif; font-size:20px; font-weight:800; text-transform:uppercase; color:var(--ink); margin-bottom:8px; }
+  .perfil-desc { font-size:13px; color:var(--ink3); line-height:1.6; }
+  .perfil-card.wide { grid-column:span 2; }
+
+  /* ─── MÉTODO ─── */
+  .metodo { padding:110px 64px; background:var(--ink); position:relative; overflow:hidden; }
+  .metodo::before { content:'MÉTODO'; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-family:'Barlow Condensed',sans-serif; font-size:260px; font-weight:900; color:rgba(255,255,255,0.025); white-space:nowrap; pointer-events:none; }
+  .met-inner { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; position:relative; z-index:1; }
+
+  /* foto + badge */
+  .met-photo { position:relative; }
+  .met-photo img { width:100%; height:500px; object-fit:cover; object-position:center 20%; filter:brightness(0.55) saturate(0.7); display:block; }
+  .met-photo-overlay { position:absolute; inset:0; background:linear-gradient(to top,var(--ink) 0%,transparent 45%); }
+  .met-badge { position:absolute; bottom:28px; left:28px; right:28px; z-index:2; background:rgba(15,15,15,0.92); border:1px solid rgba(255,71,4,0.2); border-left:4px solid var(--orange); padding:18px 20px; display:flex; align-items:center; gap:14px; backdrop-filter:blur(8px); }
+  .met-badge-icon { width:42px; height:42px; background:var(--orange-light); border:1px solid var(--orange-border); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .met-badge-icon i { color:var(--orange); font-size:18px; }
+  .met-badge-title { font-family:'Barlow Condensed',sans-serif; font-size:16px; font-weight:800; text-transform:uppercase; color:var(--white); display:block; }
+  .met-badge-sub { font-size:12px; color:rgba(255,255,255,0.4); }
+
+  /* steps */
+  .met-steps { display:flex; flex-direction:column; gap:0; }
+  .met-step { display:grid; grid-template-columns:52px 1fr; gap:18px; padding:26px 0; border-bottom:1px solid rgba(255,255,255,0.07); transition:all 0.2s; }
+  .met-step:last-child { border-bottom:none; }
+  .met-step:hover .step-num { background:var(--orange); color:var(--white); border-color:var(--orange); }
+  .step-num { width:44px; height:44px; border:2px solid rgba(255,71,4,0.4); color:var(--orange); font-family:'Barlow Condensed',sans-serif; font-size:18px; font-weight:800; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:all 0.3s; margin-top:3px; }
+  .step-body h4 { font-family:'Barlow Condensed',sans-serif; font-size:22px; font-weight:800; text-transform:uppercase; color:var(--white); margin-bottom:7px; }
+  .step-body p { font-size:14px; color:rgba(255,255,255,0.5); line-height:1.65; font-weight:300; }
+  .step-body p strong { color:rgba(255,255,255,0.8); font-weight:500; }
+
+  /* ─── RESULTADOS ─── */
+  .resultados { padding:110px 64px; background:var(--cream2); }
+  .res-header { display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:end; margin-bottom:60px; }
+  .res-intro { font-size:16px; color:var(--ink3); line-height:1.8; }
+  .res-intro strong { color:var(--ink); font-weight:700; }
+  .res-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; }
+  .res-card { background:var(--white); padding:34px 28px; border:1px solid var(--cream3); border-bottom:3px solid transparent; position:relative; overflow:hidden; transition:all 0.3s; }
+  .res-card:hover { border-bottom-color:var(--orange); box-shadow:0 8px 32px rgba(255,71,4,0.09); transform:translateY(-3px); }
+  .res-card::before { content:''; position:absolute; top:0; left:0; right:0; height:0; background:var(--orange-light); transition:height 0.4s; }
+  .res-card:hover::before { height:100%; }
+  .res-num { font-family:'Barlow Condensed',sans-serif; font-size:56px; font-weight:900; color:rgba(255,71,4,0.15); line-height:1; margin-bottom:12px; position:relative; transition:color 0.3s; }
+  .res-card:hover .res-num { color:rgba(255,71,4,0.25); }
+  .res-icon { font-size:28px; color:var(--orange); margin-bottom:12px; display:block; position:relative; }
+  .res-title { font-family:'Barlow Condensed',sans-serif; font-size:24px; font-weight:800; text-transform:uppercase; color:var(--ink); margin-bottom:10px; position:relative; }
+  .res-desc { font-size:14px; color:var(--ink3); line-height:1.65; position:relative; }
+
+  /* ─── COMPARATIVO ─── */
+  .comparativo { padding:110px 64px; background:var(--cream); }
+  .comp-inner { display:grid; grid-template-columns:1fr 1fr; gap:16px; max-width:860px; margin:48px auto 0; }
+  .comp-col { padding:36px 32px; }
+  .comp-col.bad { background:var(--cream2); border:1px solid var(--cream3); }
+  .comp-col.good { background:var(--ink); border:1px solid var(--ink2); }
+  .comp-label { font-family:'Barlow Condensed',sans-serif; font-size:13px; font-weight:800; letter-spacing:2px; text-transform:uppercase; padding:4px 12px; display:inline-block; margin-bottom:20px; }
+  .comp-col.bad .comp-label { background:var(--cream3); color:var(--gray); }
+  .comp-col.good .comp-label { background:var(--orange); color:var(--white); }
+  .comp-list { display:flex; flex-direction:column; gap:12px; }
+  .comp-item { display:flex; align-items:flex-start; gap:10px; font-size:14px; line-height:1.5; }
+  .comp-col.bad .comp-item { color:var(--gray); }
+  .comp-col.good .comp-item { color:rgba(255,255,255,0.75); }
+  .comp-item i { flex-shrink:0; margin-top:2px; font-size:13px; }
+  .comp-col.bad .comp-item i { color:var(--gray-light); }
+  .comp-col.good .comp-item i { color:var(--orange); }
+  .comp-col.good .comp-item strong { color:var(--white); font-weight:600; }
+  .comp-header { text-align:center; }
+  .comp-header .section-label { justify-content:center; }
+  .comp-header .section-label::before { display:none; }
+
+  /* ─── FAQ ─── */
+  .faq-section { padding:110px 64px; background:var(--cream2); }
+  .faq-inner { display:grid; grid-template-columns:1fr 1.4fr; gap:80px; align-items:start; }
+  .faq-left { position:sticky; top:110px; }
+  .faq-left .section-title { margin-top:14px; }
+  .faq-left p { margin-top:18px; font-size:15px; color:var(--ink3); line-height:1.75; }
+  .faq-left .btn-primary { margin-top:32px; display:inline-block; }
+  .faq-list { display:flex; flex-direction:column; }
+  .faq-item { border-bottom:1px solid var(--cream3); }
+  .faq-q { display:flex; justify-content:space-between; align-items:center; padding:24px 0; cursor:pointer; gap:20px; transition:color 0.2s; }
+  .faq-q:hover { color:var(--orange); }
+  .faq-q h4 { font-family:'Barlow Condensed',sans-serif; font-size:21px; font-weight:700; text-transform:uppercase; letter-spacing:0.3px; line-height:1.2; }
+  .faq-icon { width:30px; height:30px; border:1.5px solid var(--cream-dark); display:flex; align-items:center; justify-content:center; flex-shrink:0; color:var(--orange); font-size:14px; transition:all 0.3s; }
+  .faq-item.open .faq-icon { transform:rotate(45deg); background:var(--orange-light); border-color:var(--orange-border); }
+  .faq-a { max-height:0; overflow:hidden; transition:max-height 0.4s ease; }
+  .faq-item.open .faq-a { max-height:300px; }
+  .faq-a p { padding-bottom:22px; font-size:15px; color:var(--ink3); line-height:1.75; }
+  .faq-a p strong { color:var(--ink); font-weight:600; }
+
+  /* ─── DEPOIMENTOS ─── */
+  .depoimentos { padding:110px 64px; background:var(--cream); }
+  .depo-header { display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:52px; }
+  .rating-block { text-align:right; }
+  .rating-num { font-family:'Barlow Condensed',sans-serif; font-size:72px; font-weight:900; line-height:1; color:var(--ink); }
+  .rating-num span { color:var(--orange); }
+  .rating-stars { color:var(--orange); font-size:15px; letter-spacing:4px; display:block; margin-top:4px; }
+  .rating-note { font-size:11px; color:var(--gray); letter-spacing:2px; text-transform:uppercase; display:block; margin-top:4px; }
+  .depo-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+  .depo-card { background:var(--white); padding:32px 28px; border:1px solid var(--cream3); border-bottom:3px solid transparent; transition:all 0.3s; box-shadow:0 2px 12px rgba(26,22,20,0.04); }
+  .depo-card:hover { border-bottom-color:var(--orange); box-shadow:0 8px 32px rgba(255,71,4,0.1); transform:translateY(-3px); }
+  .depo-stars { color:var(--orange); font-size:12px; letter-spacing:3px; margin-bottom:14px; }
+  .depo-q { font-family:'Barlow Condensed',sans-serif; font-size:64px; font-weight:900; color:rgba(255,71,4,0.15); line-height:0.65; margin-bottom:14px; }
+  .depo-text { font-size:15px; color:var(--ink3); line-height:1.75; font-style:italic; }
+  .depo-author { margin-top:22px; padding-top:18px; border-top:1px solid var(--cream2); display:flex; align-items:center; gap:12px; }
+  .depo-av { width:40px; height:40px; border-radius:50%; background:var(--orange-light); border:2px solid var(--orange-border); display:flex; align-items:center; justify-content:center; font-family:'Barlow Condensed',sans-serif; font-size:17px; font-weight:800; color:var(--orange); }
+  .depo-name { font-size:14px; font-weight:700; color:var(--ink); }
+  .depo-meta { font-size:12px; color:var(--gray); margin-top:2px; }
+
+  /* ─── CTA FINAL ─── */
+  .cta-section { background:var(--ink); position:relative; overflow:hidden; }
+  .cta-section::before { content:'NEW HIT'; position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-family:'Barlow Condensed',sans-serif; font-size:240px; font-weight:900; color:rgba(255,255,255,0.025); white-space:nowrap; pointer-events:none; }
+  .cta-inner { position:relative; z-index:2; display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; padding:110px 64px; }
+  .cta-left .section-title.white { margin-top:14px; }
+  .cta-tag { display:inline-block; background:var(--orange); color:var(--white); font-family:'Barlow Condensed',sans-serif; font-size:13px; font-weight:800; letter-spacing:2px; text-transform:uppercase; padding:5px 14px; margin-top:24px; }
+  .cta-promise { margin-top:18px; font-size:15px; font-weight:300; color:rgba(255,255,255,0.5); line-height:1.8; }
+  .cta-promise strong { color:rgba(255,255,255,0.8); font-weight:500; }
+  .cta-checks { margin-top:26px; display:flex; flex-direction:column; gap:10px; }
+  .cta-check { display:flex; align-items:center; gap:10px; font-size:13px; color:rgba(255,255,255,0.5); }
+  .cta-check i { color:var(--orange); font-size:13px; width:16px; }
+
+  /* form */
+  .cta-form { background:var(--cream); padding:40px; position:relative; box-shadow:0 8px 48px rgba(0,0,0,0.3); }
+  .cta-form::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; background:var(--orange); }
+  .form-title { font-family:'Barlow Condensed',sans-serif; font-size:26px; font-weight:800; text-transform:uppercase; color:var(--ink); margin-bottom:4px; }
+  .form-sub { font-size:13px; color:var(--gray); margin-bottom:26px; }
+  .form-group { margin-bottom:14px; }
+  .form-label { display:block; font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--gray); margin-bottom:7px; }
+  .form-label i { color:var(--orange); margin-right:5px; }
+  .form-input { width:100%; background:var(--white); border:1.5px solid var(--cream3); color:var(--ink); font-family:'Barlow',sans-serif; font-size:15px; padding:12px 16px; outline:none; transition:border-color 0.2s; }
+  .form-input::placeholder { color:var(--gray-light); }
+  .form-input:focus { border-color:var(--orange); }
+  .form-select { width:100%; background:var(--white); border:1.5px solid var(--cream3); color:var(--ink3); font-family:'Barlow',sans-serif; font-size:15px; padding:12px 16px; outline:none; cursor:pointer; -webkit-appearance:none; transition:border-color 0.2s; }
+  .form-select:focus { border-color:var(--orange); }
+  .form-btn { width:100%; background:var(--orange); color:var(--white); font-family:'Barlow Condensed',sans-serif; font-size:18px; font-weight:700; letter-spacing:2px; text-transform:uppercase; padding:16px; border:none; cursor:pointer; margin-top:8px; transition:background 0.2s,transform 0.2s; position:relative; overflow:hidden; }
+  .form-btn::before { content:''; position:absolute; inset:0; background:rgba(255,255,255,0.12); transform:translateX(-110%) skewX(-15deg); transition:transform 0.4s; }
+  .form-btn:hover::before { transform:translateX(110%) skewX(-15deg); }
+  .form-btn:hover { background:#e03d00; transform:translateY(-1px); }
+  .form-divider { display:flex; align-items:center; gap:12px; margin:16px 0; }
+  .form-divider::before,.form-divider::after { content:''; flex:1; height:1px; background:var(--cream3); }
+  .form-divider span { font-size:11px; color:var(--gray-light); letter-spacing:2px; text-transform:uppercase; white-space:nowrap; }
+  .wa-btn { display:flex; align-items:center; justify-content:center; gap:10px; width:100%; background:rgba(37,211,102,0.08); border:1.5px solid rgba(37,211,102,0.25); color:#16a34a; font-family:'Barlow Condensed',sans-serif; font-size:16px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; padding:13px; text-decoration:none; transition:all 0.2s; }
+  .wa-btn:hover { background:rgba(37,211,102,0.14); border-color:rgba(37,211,102,0.45); }
+  .form-disc { margin-top:12px; font-size:11px; color:var(--gray-light); text-align:center; }
+
+  /* ─── FOOTER ─── */
+  footer { background:#0d0b0a; padding:40px 64px; display:flex; justify-content:space-between; align-items:center; }
+  .footer-logo { font-family:'Barlow Condensed',sans-serif; font-size:24px; font-weight:900; letter-spacing:2px; color:var(--white); }
+  .footer-logo span { color:var(--orange); }
+  .footer-links { display:flex; gap:28px; }
+  .footer-links a { font-size:12px; color:rgba(255,255,255,0.35); text-decoration:none; letter-spacing:1px; text-transform:uppercase; transition:color 0.2s; }
+  .footer-links a:hover { color:var(--white); }
+  footer p { font-size:12px; color:rgba(255,255,255,0.2); }
+
+  /* ─── REVEAL ─── */
+  .reveal { opacity:0; transform:translateY(32px); transition:opacity 0.75s ease,transform 0.75s ease; }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+  .reveal-left { opacity:0; transform:translateX(-28px); transition:opacity 0.75s ease,transform 0.75s ease; }
+  .reveal-left.visible { opacity:1; transform:translateX(0); }
+  .reveal-right { opacity:0; transform:translateX(28px); transition:opacity 0.75s ease,transform 0.75s ease; }
+  .reveal-right.visible { opacity:1; transform:translateX(0); }
+  .d1{transition-delay:0.1s} .d2{transition-delay:0.22s} .d3{transition-delay:0.34s}
+
+  /* ─── MOBILE ─── */
+  @media(max-width:960px){
+    nav{padding:16px 20px} nav.scrolled{padding:12px 20px} .nav-link{display:none}
+    .hero{grid-template-columns:1fr;min-height:auto}
+    .hero-left{padding:120px 24px 56px} .hero-left::after{display:none}
+    .hero-right{height:320px} .hero-ctas{flex-direction:column;align-items:flex-start}
+    .urgency{padding:12px 20px;flex-wrap:wrap;justify-content:center;gap:8px}
+    .proof-bar{gap:20px;padding:18px 24px;flex-wrap:wrap}
+    .para-quem,.metodo,.resultados,.comparativo,.faq-section,.depoimentos{padding:70px 24px}
+    .pq-inner,.met-inner,.faq-inner{grid-template-columns:1fr;gap:40px}
+    .perfil-grid{grid-template-columns:1fr} .perfil-card.wide{grid-column:span 1}
+    .res-header{grid-template-columns:1fr;gap:24px}
+    .res-grid{grid-template-columns:1fr}
+    .comp-inner{grid-template-columns:1fr}
+    .depo-grid{grid-template-columns:1fr}
+    .depo-header{flex-direction:column;align-items:flex-start;gap:20px}
+    .cta-inner{grid-template-columns:1fr;padding:70px 24px;gap:40px}
+    .faq-left{position:static}
+    footer{flex-direction:column;gap:16px;text-align:center;padding:28px 24px}
+    .footer-links{flex-wrap:wrap;justify-content:center;gap:14px}
+    .pm-section{padding:70px 24px}
+    .pm-inner{grid-template-columns:1fr;gap:40px}
+    .pm-top{flex-direction:column;gap:16px;margin-bottom:40px}
+  }
+
+  /* ─── POR QUE SE MATRICULAR ─── */
+  .pm-section { padding:100px 64px; background:var(--cream2); }
+  .pm-top { display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:60px; gap:40px; flex-wrap:wrap; }
+  .pm-inner { display:grid; grid-template-columns:1fr 1fr; gap:72px; align-items:start; }
+  .pm-reasons { display:flex; flex-direction:column; }
+  .pm-reason { display:flex; align-items:flex-start; gap:20px; padding:24px 0; border-bottom:1px solid var(--cream3); }
+  .pm-reason:first-child { padding-top:0; }
+  .pm-reason:last-child { border-bottom:none; }
+  .pm-icon { width:46px; height:46px; min-width:46px; background:var(--orange-light); border:1px solid var(--orange-border); display:flex; align-items:center; justify-content:center; clip-path:polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,6px 100%,0 calc(100% - 6px)); }
+  .pm-icon i { color:var(--orange); font-size:17px; }
+  .pm-reason-title { font-family:'Barlow Condensed',sans-serif; font-size:20px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--ink); margin-bottom:4px; }
+  .pm-reason-desc { font-size:14px; color:var(--gray); line-height:1.65; }
+  .pm-photo-grid { display:grid; grid-template-columns:1fr 1fr; grid-template-rows:240px 240px; gap:10px; }
+  .pm-photo-slot { position:relative; overflow:hidden; background:var(--cream3); }
+  .pm-photo-slot.tall { grid-row:span 2; }
+  .pm-photo-slot img { width:100%; height:100%; object-fit:cover; display:block; }
+  .pm-placeholder { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; border:2px dashed var(--cream-dark); color:var(--gray-light); transition:all 0.2s; cursor:pointer; }
+  .pm-placeholder:hover { border-color:var(--orange-border); background:var(--orange-light); }
+  .pm-placeholder:hover i,.pm-placeholder:hover span { color:var(--orange); }
+  .pm-placeholder i { font-size:28px; }
+  .pm-placeholder span { font-size:10px; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="index.html" class="nav-logo">NEW<span>HIT</span> <sub>Treino Funcional</sub></a>
+  <div class="nav-right">
+    <a href="#cta" class="nav-link">Aula experimental</a>
+    <a href="#cta" class="nav-btn"><i class="fas fa-calendar-check" style="margin-right:6px"></i>Aula Grátis</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <span class="hero-eyebrow"><i class="fas fa-dumbbell" style="margin-right:4px"></i> New Hit · Treino Funcional</span>
+    <h1 class="hero-headline">
+      <span class="thin">Chega de esteira.</span>
+      RESULTADO<br><em>DE VERDADE.</em>
+    </h1>
+    <p class="hero-sub">Treinamento funcional com <strong>acompanhamento individual, turmas reduzidas</strong> e progressão pensada para o seu corpo — não para uma planilha genérica.</p>
+    <div class="hero-results">
+      <span class="result-chip"><i class="fas fa-fire"></i> Emagrecimento</span>
+      <span class="result-chip"><i class="fas fa-person-running"></i> Condicionamento</span>
+      <span class="result-chip"><i class="fas fa-heart-pulse"></i> Saúde</span>
+      <span class="result-chip"><i class="fas fa-shield-halved"></i> Força</span>
+    </div>
+    <div class="hero-ctas">
+      <a href="#cta" class="btn-primary"><i class="fas fa-calendar-check" style="margin-right:8px"></i>Aula experimental grátis</a>
+      <a href="https://wa.me/5561999999999" class="btn-wa" target="_blank">
+        <i class="fab fa-whatsapp" style="font-size:17px"></i> Falar com a equipe
+      </a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <img id="heroImg" src="aulao/NewHit_Aulão%20e%20Defesa-239.jpg" alt="Treino Funcional New Hit">
+    <div class="hero-photo-stat">
+      <div class="hps-num">4.9<span>★</span></div>
+      <span class="hps-label">Avaliação dos alunos</span>
+    </div>
+  </div>
+</section>
+
+<!-- URGENCY -->
+<div class="urgency">
+  <p><i class="fas fa-bolt" style="margin-right:6px"></i> Vagas limitadas por turma</p>
+  <span class="urgency-dot"></span>
+  <p>Primeira aula completamente grátis</p>
+  <span class="urgency-dot"></span>
+  <p>Sem fidelidade obrigatória</p>
+</div>
+
+<!-- PROOF BAR -->
+<div class="proof-bar">
+  <div class="proof-item"><i class="fas fa-star proof-icon"></i><div><span class="proof-val">4.9</span><span class="proof-label">Google Reviews</span></div></div>
+  <div class="proof-sep"></div>
+  <div class="proof-item"><i class="fas fa-users proof-icon"></i><div><span class="proof-val">150+</span><span class="proof-label">Alunos ativos</span></div></div>
+  <div class="proof-sep"></div>
+  <div class="proof-item"><i class="fas fa-trophy proof-icon"></i><div><span class="proof-val">14 Anos</span><span class="proof-label">De experiência</span></div></div>
+  <div class="proof-sep"></div>
+  <div class="proof-item"><i class="fas fa-user-tie proof-icon"></i><div><span class="proof-val">10+</span><span class="proof-label">Profissionais</span></div></div>
+</div>
+
+<!-- PARA QUEM É -->
+<section class="para-quem" id="para-quem">
+  <div class="pq-inner">
+    <div class="reveal-left">
+      <span class="section-label">Esse treino é para você?</span>
+      <h2 class="section-title">SE VOCÊ<br>SE VÊ<br><em>AQUI…</em></h2>
+      <p>O treino funcional da New Hit foi desenhado para pessoas reais, com rotina cheia e resultado concreto como meta. <strong>Não precisa de condicionamento prévio.</strong></p>
+      <div class="nao-para">
+        <p><strong>Isso NÃO é pra você se:</strong> você quer só uma ficha na mão, prefere treinar sozinho sem acompanhamento, ou busca uma academia lotada com mensalidade baixíssima que entrega o mínimo.</p>
+      </div>
+    </div>
+    <div class="perfil-grid reveal-right">
+      <div class="perfil-card">
+        <i class="fas fa-couch perfil-icon"></i>
+        <div class="perfil-title">Saindo do sedentarismo</div>
+        <p class="perfil-desc">Quer começar a se mover mas não sabe por onde. Aqui você tem guia desde o primeiro dia.</p>
+      </div>
+      <div class="perfil-card">
+        <i class="fas fa-scale-unbalanced perfil-icon"></i>
+        <div class="perfil-title">Quer perder peso</div>
+        <p class="perfil-desc">Emagrecimento com método, sem fome, sem milagre. Treino que queima de verdade.</p>
+      </div>
+      <div class="perfil-card">
+        <i class="fas fa-clock perfil-icon"></i>
+        <div class="perfil-title">Pouco tempo, muito resultado</div>
+        <p class="perfil-desc">Agenda lotada. Cada minuto da sua sessão é aproveitado ao máximo, sem enrolação.</p>
+      </div>
+      <div class="perfil-card">
+        <i class="fas fa-person-walking perfil-icon"></i>
+        <div class="perfil-title">35+ querendo evoluir</div>
+        <p class="perfil-desc">O corpo muda com a idade. O treino também. Progressão adaptada para cada fase da vida.</p>
+      </div>
+      <div class="perfil-card wide">
+        <i class="fas fa-people-group perfil-icon"></i>
+        <div class="perfil-title">Quer treinar com a família</div>
+        <p class="perfil-desc">Desconto progressivo para parentes. Saúde em família é melhor do que saúde sozinha — e o resultado aparece mais rápido quando há comprometimento coletivo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MÉTODO -->
+<section class="metodo" id="metodo">
+  <div class="met-inner">
+    <div class="met-photo reveal-left">
+      <img src="aulao/NewHit_Aulão%20e%20Defesa-29.jpg" alt="Método New Hit">
+      <div class="met-photo-overlay"></div>
+      <div class="met-badge">
+        <div class="met-badge-icon"><i class="fas fa-chart-line"></i></div>
+        <div>
+          <span class="met-badge-title">Progressão monitorada</span>
+          <span class="met-badge-sub">Evolução semana a semana</span>
+        </div>
+      </div>
+    </div>
+    <div class="reveal-right">
+      <span class="section-label">Como funciona na prática</span>
+      <h2 class="section-title white">O MÉTODO<br><em>NEW HIT</em></h2>
+      <div class="met-steps">
+        <div class="met-step">
+          <div class="step-num">01</div>
+          <div class="step-body">
+            <h4>Avaliação inicial gratuita</h4>
+            <p>Na sua primeira visita, o professor faz uma <strong>análise completa do seu histórico, objetivos e limitações</strong>. Nada genérico, nada improvisado.</p>
+          </div>
+        </div>
+        <div class="met-step">
+          <div class="step-num">02</div>
+          <div class="step-body">
+            <h4>Plano exclusivo para você</h4>
+            <p>Com base na avaliação, criamos um <strong>plano de treino personalizado</strong> para o seu corpo, sua rotina e seu objetivo específico.</p>
+          </div>
+        </div>
+        <div class="met-step">
+          <div class="step-num">03</div>
+          <div class="step-body">
+            <h4>Turmas reduzidas com presença real</h4>
+            <p>Nossas turmas são pequenas de propósito. O professor <strong>te vê, te corrige e te motiva</strong> — não está olhando para uma planilha.</p>
+          </div>
+        </div>
+        <div class="met-step">
+          <div class="step-num">04</div>
+          <div class="step-body">
+            <h4>Evolução contínua e monitorada</h4>
+            <p>Seu treino avança <strong>conforme você evolui</strong>. Sem estagnação, sem platô, sem aquela sensação de estar marcando passo.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTADOS -->
+<section class="resultados" id="resultados">
+  <div class="res-header reveal">
+    <div>
+      <span class="section-label">O que você conquista</span>
+      <h2 class="section-title">RESULTADOS<br><em>CONCRETOS</em></h2>
+    </div>
+    <p class="res-intro">O funcional da New Hit não é bonito no Instagram. É <strong>eficiente na vida real.</strong> Veja o que nossos alunos conquistam nas primeiras semanas.</p>
+  </div>
+  <div class="res-grid">
+    <div class="res-card reveal d1">
+      <i class="fas fa-fire res-icon"></i>
+      <div class="res-title">Emagrecimento Real</div>
+      <p class="res-desc">Queima calórica alta, aumento do metabolismo basal e perda de medidas visível. Sem dieta maluca, com treino certo.</p>
+    </div>
+    <div class="res-card reveal d2">
+      <i class="fas fa-bolt res-icon"></i>
+      <div class="res-title">Mais Energia no Dia</div>
+      <p class="res-desc">Quem treina funcional relata disposição maior para o trabalho, família e tudo mais. O cansaço certo libera energia real.</p>
+    </div>
+    <div class="res-card reveal d3">
+      <i class="fas fa-person-running res-icon"></i>
+      <div class="res-title">Condicionamento Físico</div>
+      <p class="res-desc">Resistência, velocidade e força crescendo semana a semana. Você vai notar nas escadas, na corrida, no dia a dia.</p>
+    </div>
+    <div class="res-card reveal d1">
+      <i class="fas fa-shield-halved res-icon"></i>
+      <div class="res-title">Força Funcional</div>
+      <p class="res-desc">Músculos que funcionam para a vida, não para o espelho. Força real que protege articulações e melhora postura.</p>
+    </div>
+    <div class="res-card reveal d2">
+      <i class="fas fa-heart-pulse res-icon"></i>
+      <div class="res-title">Saúde Cardiovascular</div>
+      <p class="res-desc">Pressão, frequência cardíaca e colesterol respondem rapidamente ao treino de intensidade variada. Seu coração agradece.</p>
+    </div>
+    <div class="res-card reveal d3">
+      <i class="fas fa-brain res-icon"></i>
+      <div class="res-title">Saúde Mental</div>
+      <p class="res-desc">Redução comprovada de ansiedade e estresse. Alunos relatam melhora do sono já nas primeiras semanas de treino regular.</p>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARATIVO -->
+<section class="comparativo" id="comparativo">
+  <div class="comp-header reveal">
+    <span class="section-label">A diferença que você vai sentir</span>
+    <h2 class="section-title">NEW HIT VS<br><em>ACADEMIA COMUM</em></h2>
+  </div>
+  <div class="comp-inner reveal">
+    <div class="comp-col bad">
+      <span class="comp-label"><i class="fas fa-xmark" style="margin-right:6px"></i>Academia comum</span>
+      <div class="comp-list">
+        <div class="comp-item"><i class="fas fa-xmark"></i><span>Ficha genérica igual para todo mundo</span></div>
+        <div class="comp-item"><i class="fas fa-xmark"></i><span>Professor ocupado com 30 alunos ao mesmo tempo</span></div>
+        <div class="comp-item"><i class="fas fa-xmark"></i><span>Sem avaliação inicial, sem acompanhamento</span></div>
+        <div class="comp-item"><i class="fas fa-xmark"></i><span>Treino não evolui com você</span></div>
+        <div class="comp-item"><i class="fas fa-xmark"></i><span>Você some e ninguém nota</span></div>
+        <div class="comp-item"><i class="fas fa-xmark"></i><span>Resultado incerto e demorado</span></div>
+      </div>
+    </div>
+    <div class="comp-col good">
+      <span class="comp-label"><i class="fas fa-check" style="margin-right:6px"></i>New Hit Funcional</span>
+      <div class="comp-list">
+        <div class="comp-item"><i class="fas fa-check"></i><span><strong>Plano exclusivo</strong> criado para o seu corpo e objetivo</span></div>
+        <div class="comp-item"><i class="fas fa-check"></i><span>Turmas reduzidas com <strong>atenção real em cada aula</strong></span></div>
+        <div class="comp-item"><i class="fas fa-check"></i><span><strong>Avaliação inicial gratuita</strong> e acompanhamento contínuo</span></div>
+        <div class="comp-item"><i class="fas fa-check"></i><span>Progressão monitorada — <strong>o treino cresce com você</strong></span></div>
+        <div class="comp-item"><i class="fas fa-check"></i><span>Professor que conhece seu nome e sua <strong>evolução</strong></span></div>
+        <div class="comp-item"><i class="fas fa-check"></i><span>Resultado visível nas primeiras semanas</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── POR QUE SE MATRICULAR ─── -->
+<section class="pm-section" id="porque-matricular">
+  <div class="pm-top">
+    <div>
+      <span class="section-label">Razões para começar hoje</span>
+      <h2 class="section-title">POR QUE SE<br><em>MATRICULAR</em></h2>
+    </div>
+    <p style="max-width:380px;color:var(--gray);font-size:16px;line-height:1.7">Treino funcional que respeita o seu corpo, o seu tempo e entrega resultado de verdade — com acompanhamento real em cada aula.</p>
+  </div>
+  <div class="pm-inner">
+    <div class="pm-reasons">
+      <div class="pm-reason">
+        <div class="pm-icon"><i class="fas fa-user-check"></i></div>
+        <div>
+          <div class="pm-reason-title">Turmas Reduzidas com Correção Individual</div>
+          <p class="pm-reason-desc">Poucos alunos por turma para que o professor corrija sua postura e técnica — em cada repetição, em cada aula.</p>
+        </div>
+      </div>
+      <div class="pm-reason">
+        <div class="pm-icon"><i class="fas fa-sliders"></i></div>
+        <div>
+          <div class="pm-reason-title">Plano Progressivo Personalizado</div>
+          <p class="pm-reason-desc">Seu treino começa do seu nível atual e evolui conforme você avança. Sem copiar ficha de ninguém.</p>
+        </div>
+      </div>
+      <div class="pm-reason">
+        <div class="pm-icon"><i class="fas fa-bolt"></i></div>
+        <div>
+          <div class="pm-reason-title">Resultados Rápidos e Sustentáveis</div>
+          <p class="pm-reason-desc">Método que combina força, mobilidade e condicionamento para resultados que aparecem e ficam.</p>
+        </div>
+      </div>
+      <div class="pm-reason">
+        <div class="pm-icon"><i class="fas fa-people-group"></i></div>
+        <div>
+          <div class="pm-reason-title">Estrutura Completa e Ambiente Motivador</div>
+          <p class="pm-reason-desc">Espaço equipado, comunidade engajada e uma equipe que conhece você pelo nome — sem fila, sem impessoalidade.</p>
+        </div>
+      </div>
+    </div>
+    <div class="pm-photo-grid">
+      <div class="pm-photo-slot tall">
+        <img src="aulao/NewHit_Aulão%20e%20Defesa-70.jpg" alt="New Hit Aulão">
+      </div>
+      <div class="pm-photo-slot">
+        <img src="aulao/NewHit_Aulão%20e%20Defesa-65.jpg" alt="New Hit Aulão">
+      </div>
+      <div class="pm-photo-slot">
+        <img src="aulao/NewHit_Aulão%20e%20Defesa-56.jpg" alt="New Hit Aulão">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section" id="faq">
+  <div class="faq-inner">
+    <div class="faq-left reveal-left">
+      <span class="section-label">Tire suas dúvidas</span>
+      <h2 class="section-title">SUAS<br><em>DÚVIDAS</em><br>RESPONDIDAS</h2>
+      <p>Antes de experimentar, bate a dúvida. Separamos as perguntas mais comuns de quem está conhecendo o treino funcional da New Hit.</p>
+      <a href="#cta" class="btn-primary"><i class="fas fa-calendar-check" style="margin-right:8px"></i>Quero experimentar grátis</a>
+    </div>
+    <div class="faq-list reveal-right">
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <h4>Nunca treinei na vida. Consigo acompanhar?</h4>
+          <span class="faq-icon"><i class="fas fa-plus"></i></span>
+        </div>
+        <div class="faq-a"><p>Sim, totalmente. A maioria dos nossos alunos começou do zero. <strong>A avaliação inicial existe exatamente para isso</strong> — entender seu ponto de partida e montar um plano que respeite seu ritmo. Você nunca vai se sentir perdido ou humilhado.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <h4>Em quanto tempo vou ver resultado?</h4>
+          <span class="faq-icon"><i class="fas fa-plus"></i></span>
+        </div>
+        <div class="faq-a"><p>Depende do ponto de partida e frequência, mas <strong>a maioria dos alunos relata mudanças perceptíveis entre 3 e 6 semanas</strong>: mais energia, roupa mais folgada, melhor condicionamento. Resultados visíveis no espelho aparecem entre 6 e 12 semanas com treino regular.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <h4>Tenho mais de 40 anos. É indicado?</h4>
+          <span class="faq-icon"><i class="fas fa-plus"></i></span>
+        </div>
+        <div class="faq-a"><p>Muito indicado. <strong>O treino funcional é especialmente eficiente acima dos 40</strong> porque trabalha mobilidade, equilíbrio e força de forma integrada — exatamente o que o corpo precisa nessa fase. Adaptamos a intensidade e os exercícios para cada faixa etária.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <h4>Tenho lesão ou restrição médica. Posso treinar?</h4>
+          <span class="faq-icon"><i class="fas fa-plus"></i></span>
+        </div>
+        <div class="faq-a"><p>Na maioria dos casos sim, com adaptações. <strong>Informe durante a avaliação inicial</strong> e o professor vai adaptar o treino para respeitar sua condição. Recomendamos sempre ter liberação médica para condições mais sérias.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <h4>Quantas vezes por semana preciso treinar?</h4>
+          <span class="faq-icon"><i class="fas fa-plus"></i></span>
+        </div>
+        <div class="faq-a"><p>O ideal é <strong>3 vezes por semana para resultados consistentes</strong>. Mas mesmo com 2 vezes semanais você já vai sentir diferença. O professor vai orientar a frequência ideal para o seu objetivo e disponibilidade.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          <h4>Como funciona a aula experimental?</h4>
+          <span class="faq-icon"><i class="fas fa-plus"></i></span>
+        </div>
+        <div class="faq-a"><p><strong>Você agenda pelo formulário ou WhatsApp</strong>, a gente marca o melhor horário. Você vem, conhece o espaço, conversa com o professor e faz uma aula completa. Grátis, sem compromisso, sem pressão para matricular na hora.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEPOIMENTOS -->
+<section class="depoimentos" id="depoimentos">
+  <div class="depo-header reveal">
+    <div>
+      <span class="section-label">Quem já treina aqui</span>
+      <h2 class="section-title">O QUE NOSSOS<br><em>ALUNOS</em> DIZEM</h2>
+    </div>
+    <div class="rating-block">
+      <div class="rating-num">4.9<span>★</span></div>
+      <span class="rating-stars">★★★★★</span>
+      <span class="rating-note">Google Reviews</span>
+    </div>
+  </div>
+  <div class="depo-grid">
+    <div class="depo-card reveal d1">
+      <div class="depo-stars">★★★★★</div>
+      <div class="depo-q">"</div>
+      <p class="depo-text">Estava sedentária há 5 anos. Comecei com medo de não aguentar. Em 2 meses perdi 6kg, durmo melhor e tenho energia que não tinha nem aos 30. O professor me conhece pelo nome e sabe onde estou melhorando.</p>
+      <div class="depo-author">
+        <div class="depo-av">M</div>
+        <div><div class="depo-name">Mônica R.</div><div class="depo-meta">Funcional · 4 meses · Guará II</div></div>
+      </div>
+    </div>
+    <div class="depo-card reveal d2">
+      <div class="depo-stars">★★★★★</div>
+      <div class="depo-q">"</div>
+      <p class="depo-text">Já fui em várias academias e sempre desisti. Aqui é diferente porque o treino é meu, não de todo mundo igual. Sinto que evoluí mais em 3 meses do que em 2 anos em outros lugares.</p>
+      <div class="depo-author">
+        <div class="depo-av">J</div>
+        <div><div class="depo-name">João Paulo M.</div><div class="depo-meta">Funcional · 7 meses · Park Sul</div></div>
+      </div>
+    </div>
+    <div class="depo-card reveal d3">
+      <div class="depo-stars">★★★★★</div>
+      <div class="depo-q">"</div>
+      <p class="depo-text">Tenho 47 anos e achei que não ia conseguir acompanhar. O professor foi incrível, adaptou tudo para mim. Hoje estou mais forte do que quando tinha 35 e minha pressão normalizou.</p>
+      <div class="depo-author">
+        <div class="depo-av">S</div>
+        <div><div class="depo-name">Sandra L.</div><div class="depo-meta">Funcional · 9 meses · Lúcio Costa</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-section" id="cta">
+  <div class="cta-inner">
+    <div class="cta-left reveal-left">
+      <span class="section-label" style="color:var(--orange)">Comece hoje</span>
+      <h2 class="section-title white">A PRIMEIRA<br>AULA É<br><em>GRÁTIS.</em></h2>
+      <div class="cta-tag"><i class="fas fa-check" style="margin-right:6px"></i>Zero compromisso · Zero pagamento</div>
+      <p class="cta-promise">Você vem, <strong>conhece o espaço</strong>, conversa com o professor, faz a aula completa. Se não gostar, nenhum problema. Se gostar — e vai gostar —, a gente te ajuda a escolher o melhor plano.</p>
+      <div class="cta-checks">
+        <div class="cta-check"><i class="fas fa-check"></i> Avaliação inicial gratuita inclusa</div>
+        <div class="cta-check"><i class="fas fa-check"></i> Turmas reduzidas com atenção real</div>
+        <div class="cta-check"><i class="fas fa-check"></i> Plano personalizado para o seu corpo</div>
+        <div class="cta-check"><i class="fas fa-check"></i> Sem cartão de crédito na hora</div>
+        <div class="cta-check"><i class="fas fa-check"></i> 14 anos de experiência no Guará</div>
+      </div>
+    </div>
+    <div class="cta-form reveal-right">
+      <div class="form-title">Agende sua aula grátis</div>
+      <p class="form-sub">Nossa equipe responde em até 2 horas</p>
+      <div class="form-group">
+        <label class="form-label"><i class="fas fa-user"></i>Seu nome completo</label>
+        <input class="form-input" type="text" placeholder="Ex: Maria Silva" id="f-nome">
+      </div>
+      <div class="form-group">
+        <label class="form-label"><i class="fab fa-whatsapp"></i>WhatsApp com DDD</label>
+        <input class="form-input" type="tel" placeholder="(61) 9 9999-9999" id="f-tel">
+      </div>
+      <div class="form-group">
+        <label class="form-label"><i class="fas fa-bullseye"></i>Seu objetivo principal</label>
+        <select class="form-select" id="f-obj">
+          <option value="" disabled selected>Selecione uma opção</option>
+          <option>Emagrecer e perder medidas</option>
+          <option>Ganhar condicionamento físico</option>
+          <option>Sair do sedentarismo</option>
+          <option>Ganhar força e massa muscular</option>
+          <option>Saúde e qualidade de vida</option>
+          <option>Outro objetivo</option>
+        </select>
+      </div>
+      <button class="form-btn" onclick="submitForm()"><i class="fas fa-calendar-check" style="margin-right:8px"></i>Quero minha aula experimental grátis →</button>
+      <div class="form-divider"><span>ou fale diretamente</span></div>
+      <a href="https://wa.me/5561999999999?text=Olá!%20Vim%20pelo%20site%20e%20quero%20agendar%20minha%20aula%20experimental%20de%20Funcional%20grátis!" class="wa-btn" target="_blank">
+        <i class="fab fa-whatsapp" style="font-size:20px"></i> Chamar no WhatsApp
+      </a>
+      <p class="form-disc"><i class="fas fa-lock" style="margin-right:4px"></i>Seus dados são usados apenas para agendamento. Sem spam.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">NEW<span>HIT</span></div>
+  <div class="footer-links">
+    <a href="index.html">Home</a>
+    <a href="#para-quem">Para quem é</a>
+    <a href="#resultados">Resultados</a>
+    <a href="#faq">Dúvidas</a>
+    <a href="#cta">Aula grátis</a>
+  </div>
+  <p>© 2025 New Hit · Guará II, Brasília</p>
+</footer>
+
+<script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 50));
+  const heroImg = document.getElementById('heroImg');
+  if (heroImg) setTimeout(() => heroImg.classList.add('loaded'), 100);
+  const allReveal = document.querySelectorAll('.reveal,.reveal-left,.reveal-right');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  allReveal.forEach(el => obs.observe(el));
+
+  function toggleFaq(el) {
+    const item = el.parentElement;
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  function submitForm() {
+    const nome = document.getElementById('f-nome').value;
+    const tel  = document.getElementById('f-tel').value;
+    const obj  = document.getElementById('f-obj').value;
+    if (!nome || !tel) { alert('Por favor, preencha seu nome e WhatsApp.'); return; }
+    const msg = `Olá! Me chamo ${nome} e quero agendar minha aula experimental de Treino Funcional grátis. Meu objetivo: ${obj || 'não informado'}.`;
+    window.open(`https://wa.me/5561999999999?text=${encodeURIComponent(msg)}`, '_blank');
+  }
+</script>
+</body>
+</html>
