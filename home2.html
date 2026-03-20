@@ -28,13 +28,22 @@
   * { margin:0; padding:0; box-sizing:border-box; }
   html { scroll-behavior:smooth; }
   body { font-family:'Barlow',sans-serif; background:var(--cream); color:var(--ink); overflow-x:hidden; }
-  ::-webkit-scrollbar { width:3px; }
+  ::-webkit-scrollbar { width:8px; }
   ::-webkit-scrollbar-track { background:var(--cream2); }
   ::-webkit-scrollbar-thumb { background:var(--orange); }
 
+  /* ─── URGENCY BAR ─── */
+  .urgency-bar { position:fixed; top:0; left:0; right:0; z-index:300; background:var(--ink); padding:10px 64px; display:flex; align-items:center; justify-content:center; gap:16px; }
+  .urgency-bar p { font-family:'Barlow Condensed',sans-serif; font-size:14px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; color:var(--white); white-space:nowrap; }
+  .urgency-bar .ub-highlight { color:var(--orange); }
+  .urgency-dot { width:4px; height:4px; border-radius:50%; background:rgba(255,255,255,0.3); flex-shrink:0; }
+  .ub-btn { display:inline-flex; align-items:center; gap:6px; background:var(--orange); color:var(--white); font-family:'Barlow Condensed',sans-serif; font-size:12px; font-weight:800; letter-spacing:2px; text-transform:uppercase; padding:5px 14px; text-decoration:none; clip-path:polygon(0 0,calc(100% - 5px) 0,100% 5px,100% 100%,5px 100%,0 calc(100% - 5px)); transition:opacity 0.2s; animation:ubPulse 2.5s ease-in-out infinite; white-space:nowrap; }
+  .ub-btn:hover { opacity:0.85; }
+  @keyframes ubPulse { 0%,100%{box-shadow:0 0 0 0 rgba(255,71,4,0.5)} 50%{box-shadow:0 0 0 8px rgba(255,71,4,0)} }
+
   /* ─── NAV ─── */
   nav {
-    position:fixed; top:0; left:0; right:0; z-index:200;
+    position:fixed; top:44px; left:0; right:0; z-index:200;
     display:flex; align-items:center; justify-content:space-between;
     padding:24px 64px; transition:all 0.5s cubic-bezier(.16,1,.3,1);
   }
@@ -65,6 +74,35 @@
     transition:background 0.2s,transform 0.2s !important;
   }
   .nav-cta:hover { background:#e03d00 !important; transform:translateY(-1px); }
+
+  /* ─── DROPDOWN ─── */
+  .nav-dropdown { position:relative; }
+  .nav-dropdown > a { display:flex; align-items:center; gap:5px; }
+  .nav-dropdown > a::after { content:''; width:6px; height:6px; border-right:1.5px solid currentColor; border-bottom:1.5px solid currentColor; transform:rotate(45deg) translateY(-2px); display:inline-block; transition:transform 0.2s; }
+  .nav-dropdown:hover > a::after { transform:rotate(-135deg) translateY(-2px); }
+  .nav-dropdown-menu {
+    position:absolute; top:calc(100% + 12px); left:50%; transform:translateX(-50%) translateY(-6px);
+    background:var(--white); min-width:200px;
+    border:1px solid var(--cream3);
+    box-shadow:0 12px 40px rgba(26,22,20,0.12);
+    opacity:0; visibility:hidden;
+    transition:opacity 0.22s, transform 0.22s, visibility 0.22s;
+    list-style:none; padding:6px 0;
+    clip-path:polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,6px 100%,0 calc(100% - 6px));
+  }
+  .nav-dropdown:hover .nav-dropdown-menu {
+    opacity:1; visibility:visible;
+    transform:translateX(-50%) translateY(0);
+  }
+  .nav-dropdown-menu li a {
+    display:block; padding:11px 22px;
+    color:var(--ink3) !important; font-size:11px;
+    font-weight:600; letter-spacing:1.5px;
+    text-transform:uppercase; text-decoration:none;
+    transition:color 0.15s, background 0.15s;
+  }
+  .nav-dropdown-menu li a:hover { color:var(--orange) !important; background:var(--cream); }
+  .nav-dropdown-menu li + li { border-top:1px solid var(--cream2); }
 
   /* ─── HERO FULL-SCREEN ─── */
   .hero {
@@ -195,12 +233,28 @@
   /* scroll hint */
   .scroll-hint {
     position:absolute; bottom:134px; left:50%; transform:translateX(-50%);
-    z-index:2; display:flex; flex-direction:column; align-items:center; gap:6px;
+    z-index:2; display:flex; flex-direction:column; align-items:center; gap:8px;
     opacity:0; animation:fadeUp 0.6s 1.4s forwards;
+    cursor:pointer; text-decoration:none;
   }
-  .scroll-hint span { font-size:10px; letter-spacing:2.5px; text-transform:uppercase; color:rgba(255,255,255,0.35); }
-  .scroll-hint i { color:rgba(255,255,255,0.3); font-size:14px; animation:bounceY 1.8s ease-in-out infinite; }
-  @keyframes bounceY { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
+  .scroll-hint span { font-size:10px; letter-spacing:2.5px; text-transform:uppercase; color:rgba(255,255,255,0.45); }
+  .sh-btn {
+    width:46px; height:46px; border:2px solid rgba(255,255,255,0.25); border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    background:rgba(255,255,255,0.06); transition:all 0.3s;
+    animation:shPulse 2s ease-in-out infinite;
+  }
+  .scroll-hint:hover .sh-btn { border-color:rgba(255,71,4,0.6); background:rgba(255,71,4,0.12); }
+  .sh-btn i { color:rgba(255,255,255,0.65); font-size:15px; animation:bounceY 1.8s ease-in-out infinite; }
+  .scroll-hint:hover .sh-btn i { color:var(--orange); }
+  @keyframes bounceY { 0%,100%{transform:translateY(0)} 50%{transform:translateY(5px)} }
+  @keyframes shPulse { 0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,0.2)} 50%{box-shadow:0 0 0 12px rgba(255,255,255,0)} }
+  /* WA notice */
+  .wa-notice { display:none; align-items:center; gap:10px; background:rgba(37,211,102,0.1); border:1.5px solid rgba(37,211,102,0.3); border-left:4px solid #16a34a; padding:12px 16px; margin-bottom:16px; }
+  .wa-notice.show { display:flex; animation:noticeIn 0.35s ease; }
+  @keyframes noticeIn { from{opacity:0;transform:translateY(-8px)} to{opacity:1;transform:translateY(0)} }
+  .wa-notice i { color:#16a34a; font-size:18px; flex-shrink:0; }
+  .wa-notice p { font-size:13px; color:var(--ink); font-weight:500; line-height:1.4; }
 
   @keyframes fadeUp { to { opacity:1; transform:translateY(0); } }
 
@@ -425,7 +479,8 @@
 
   /* ─── MOBILE ─── */
   @media(max-width:960px){
-    nav{padding:16px 20px} nav.scrolled{padding:12px 20px}
+    .urgency-bar{padding:8px 16px;gap:8px} .urgency-bar p{font-size:12px} .urgency-dot{display:none}
+    nav{padding:16px 20px;top:40px} nav.scrolled{padding:12px 20px}
     .nav-links li:not(:last-child){display:none}
     .hero-content{padding:0 24px 110px}
     .hero-stats{right:24px;bottom:110px}
@@ -450,19 +505,59 @@
     .gal-header{flex-direction:column;align-items:flex-start;gap:16px}
     .gal-header p{text-align:left}
     .scroll-hint{display:none}
+    .pm-section{padding:70px 24px}
+    .pm-inner{grid-template-columns:1fr;gap:40px}
+    .pm-top{flex-direction:column;gap:16px;margin-bottom:40px}
   }
+
+  /* ─── POR QUE SE MATRICULAR ─── */
+  .pm-section { padding:100px 64px; background:var(--cream2); }
+  .pm-top { display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:60px; gap:40px; flex-wrap:wrap; }
+  .pm-inner { display:grid; grid-template-columns:1fr 1fr; gap:72px; align-items:start; }
+  .pm-reasons { display:flex; flex-direction:column; }
+  .pm-reason { display:flex; align-items:flex-start; gap:20px; padding:24px 0; border-bottom:1px solid var(--cream3); }
+  .pm-reason:first-child { padding-top:0; }
+  .pm-reason:last-child { border-bottom:none; }
+  .pm-icon { width:46px; height:46px; min-width:46px; background:var(--orange-light); border:1px solid var(--orange-border); display:flex; align-items:center; justify-content:center; clip-path:polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,6px 100%,0 calc(100% - 6px)); }
+  .pm-icon i { color:var(--orange); font-size:17px; }
+  .pm-reason-title { font-family:'Barlow Condensed',sans-serif; font-size:20px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--ink); margin-bottom:4px; }
+  .pm-reason-desc { font-size:14px; color:var(--gray); line-height:1.65; }
+  .pm-photo-grid { display:grid; grid-template-columns:1fr 1fr; grid-template-rows:240px 240px; gap:10px; }
+  .pm-photo-slot { position:relative; overflow:hidden; background:var(--cream3); }
+  .pm-photo-slot.tall { grid-row:span 2; }
+  .pm-photo-slot img { width:100%; height:100%; object-fit:cover; display:block; }
+  .pm-placeholder { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; border:2px dashed var(--cream-dark); color:var(--gray-light); transition:all 0.2s; cursor:pointer; }
+  .pm-placeholder:hover { border-color:var(--orange-border); background:var(--orange-light); }
+  .pm-placeholder:hover i,.pm-placeholder:hover span { color:var(--orange); }
+  .pm-placeholder i { font-size:28px; }
+  .pm-placeholder span { font-size:10px; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; }
 </style>
 </head>
 <body>
+
+<!-- ─── URGENCY BAR ─── -->
+<div class="urgency-bar">
+  <p>⚡ <span class="ub-highlight">Oferta relâmpago</span> — 70% OFF no primeiro mês</p>
+  <span class="urgency-dot"></span>
+  <a href="promo.html" class="ub-btn"><i class="fas fa-bolt"></i> Quero aproveitar</a>
+</div>
 
 <!-- ─── NAV ─── -->
 <nav id="nav">
   <a href="#" class="nav-logo">NEW<span>HIT</span></a>
   <ul class="nav-links">
-    <li><a href="#modalidades">Modalidades</a></li>
+    <li class="nav-dropdown">
+      <a href="#modalidades">Modalidades</a>
+      <ul class="nav-dropdown-menu">
+        <li><a href="funcional.html">Treino Funcional</a></li>
+        <li><a href="kids.html">Kids &amp; Lutas</a></li>
+        <li><a href="pilates.html">Pilates Studio</a></li>
+      </ul>
+    </li>
     <li><a href="#galeria">A Academia</a></li>
     <li><a href="#depoimentos">Alunos</a></li>
     <li><a href="#localizacao">Localização</a></li>
+    <li><a href="promo.html">Promoção</a></li>
     <li><a href="#experimental" class="nav-cta">Aula Grátis</a></li>
   </ul>
 </nav>
@@ -523,9 +618,9 @@
   </div>
 
   <!-- scroll hint -->
-  <div class="scroll-hint">
+  <div class="scroll-hint" onclick="document.getElementById('modalidades').scrollIntoView({behavior:'smooth'})">
     <span>Role para baixo</span>
-    <i class="fas fa-chevron-down"></i>
+    <div class="sh-btn"><i class="fas fa-chevron-down"></i></div>
   </div>
 
 </section>
@@ -563,7 +658,7 @@
           <div class="mod-feature"><i class="fas fa-check"></i> Correção individual</div>
           <div class="mod-feature"><i class="fas fa-check"></i> Plano progressivo</div>
         </div>
-        <a href="newhit-funcional-lp.html" class="mod-link">Saiba mais <i class="fas fa-arrow-right"></i></a>
+        <a href="funcional.html" class="mod-link">Saiba mais <i class="fas fa-arrow-right"></i></a>
       </div>
     </div>
     <div class="mod-card reveal d2">
@@ -580,7 +675,7 @@
           <div class="mod-feature"><i class="fas fa-check"></i> Professores especializados</div>
           <div class="mod-feature"><i class="fas fa-check"></i> Sistema de faixas</div>
         </div>
-        <a href="newhit-lutas-infantil-lp.html" class="mod-link">Saiba mais <i class="fas fa-arrow-right"></i></a>
+        <a href="kids.html" class="mod-link">Saiba mais <i class="fas fa-arrow-right"></i></a>
       </div>
     </div>
     <div class="mod-card reveal d3">
@@ -597,7 +692,7 @@
           <div class="mod-feature"><i class="fas fa-check"></i> Sessões personalizadas</div>
           <div class="mod-feature"><i class="fas fa-check"></i> Desconto família</div>
         </div>
-        <a href="newhit-pilates-lp.html" class="mod-link">Saiba mais <i class="fas fa-arrow-right"></i></a>
+        <a href="pilates.html" class="mod-link">Saiba mais <i class="fas fa-arrow-right"></i></a>
       </div>
     </div>
   </div>
@@ -622,6 +717,60 @@
   </div>
 </section>
 
+<!-- ─── POR QUE SE MATRICULAR ─── -->
+<section class="pm-section" id="porque-matricular">
+  <div class="pm-top">
+    <div>
+      <span class="section-label">Motivos que convencem</span>
+      <h2 class="section-title">POR QUE SE<br><em>MATRICULAR</em></h2>
+    </div>
+    <p style="max-width:380px;color:var(--gray);font-size:16px;line-height:1.7">Mais de 14 anos formando alunos no Guará com método, estrutura e cuidado que grandes academias não oferecem.</p>
+  </div>
+  <div class="pm-inner">
+    <div class="pm-reasons">
+      <div class="pm-reason reveal">
+        <div class="pm-icon"><i class="fas fa-user-check"></i></div>
+        <div>
+          <div class="pm-reason-title">Acompanhamento Individual de Verdade</div>
+          <p class="pm-reason-desc">Turmas reduzidas onde o professor sabe seu nome, corrige seu movimento e acompanha sua evolução semana a semana.</p>
+        </div>
+      </div>
+      <div class="pm-reason reveal">
+        <div class="pm-icon"><i class="fas fa-award"></i></div>
+        <div>
+          <div class="pm-reason-title">Professores Qualificados e Experientes</div>
+          <p class="pm-reason-desc">Equipe com formação específica em cada modalidade — funcional, lutas e pilates — e anos de experiência prática.</p>
+        </div>
+      </div>
+      <div class="pm-reason reveal">
+        <div class="pm-icon"><i class="fas fa-people-group"></i></div>
+        <div>
+          <div class="pm-reason-title">Ambiente Familiar e Motivador</div>
+          <p class="pm-reason-desc">Um lugar onde você se sente bem-vindo desde o primeiro dia. Alunos que viraram amigos. Uma comunidade real.</p>
+        </div>
+      </div>
+      <div class="pm-reason reveal">
+        <div class="pm-icon"><i class="fas fa-chart-line"></i></div>
+        <div>
+          <div class="pm-reason-title">Resultados com Progressão Monitorada</div>
+          <p class="pm-reason-desc">Plano ajustado ao seu objetivo e revisado com frequência. Você enxerga a evolução — e isso muda tudo.</p>
+        </div>
+      </div>
+    </div>
+    <div class="pm-photo-grid reveal-right">
+      <div class="pm-photo-slot tall">
+        <img src="aulao/NewHit_Aulão%20e%20Defesa-239.jpg" alt="New Hit Aulão">
+      </div>
+      <div class="pm-photo-slot">
+        <img src="aulao/NewHit_Aulão%20e%20Defesa-29.jpg" alt="New Hit Aulão">
+      </div>
+      <div class="pm-photo-slot">
+        <img src="lutas_kids/DSC05680.jpg" alt="New Hit Kids">
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ─── GALERIA ─── -->
 <section class="galeria" id="galeria">
   <div class="gal-header reveal">
@@ -632,15 +781,14 @@
     <p>Fotos reais do nosso espaço, equipamentos e alunos. Sem filtro, sem encenação.</p>
   </div>
   <div class="gal-grid">
-    <div class="gal-slot empty" id="gal1"><i class="fas fa-image"></i><span>Foto 1 — Área Principal</span></div>
-    <div class="gal-slot empty" id="gal2"><i class="fas fa-image"></i><span>Foto 2 — Tatame / Lutas</span></div>
-    <div class="gal-slot empty" id="gal3"><i class="fas fa-image"></i><span>Foto 3 — Pilates / Detalhe</span></div>
-    <div class="gal-slot empty" id="gal4"><i class="fas fa-image"></i><span>Foto 4 — Alunos</span></div>
-    <div class="gal-slot empty" id="gal5"><i class="fas fa-image"></i><span>Foto 5 — Equipe</span></div>
-    <div class="gal-slot empty" id="gal6"><i class="fas fa-image"></i><span>Foto 6 — Fachada</span></div>
+    <div class="gal-slot"><img src="aulao/NewHit_Aulão%20e%20Defesa-50.jpg" alt="New Hit Aulão"></div>
+    <div class="gal-slot"><img src="aulao/NewHit_Aulão%20e%20Defesa-56.jpg" alt="New Hit Aulão"></div>
+    <div class="gal-slot"><img src="aulao/NewHit_Aulão%20e%20Defesa-65.jpg" alt="New Hit Aulão"></div>
+    <div class="gal-slot"><img src="lutas_kids/DSC05688.jpg" alt="New Hit Kids"></div>
+    <div class="gal-slot"><img src="aulao/NewHit_Aulão%20e%20Defesa-68.jpg" alt="New Hit Aulão"></div>
+    <div class="gal-slot"><img src="aulao/NewHit_Aulão%20e%20Defesa-83.jpg" alt="New Hit Aulão"></div>
   </div>
   <div class="gal-cta reveal">
-    <p><i class="fas fa-info-circle" style="color:var(--orange);margin-right:6px"></i>Substitua os slots acima com as fotos reais da academia</p>
     <a href="#experimental" class="btn-outline"><i class="fas fa-calendar-check" style="margin-right:8px"></i>Venha conhecer pessoalmente</a>
   </div>
 </section>
@@ -694,6 +842,10 @@
       </div>
     </div>
     <div class="exp-form reveal-right">
+      <div id="wa-notice" class="wa-notice">
+        <i class="fab fa-whatsapp"></i>
+        <p>Preencha o formulário abaixo e nossa equipe entra em contato pelo WhatsApp!</p>
+      </div>
       <div class="form-title">Agende sua aula grátis</div>
       <p class="form-sub">Respondemos em até 2 horas em horário comercial</p>
       <div class="form-group"><label class="form-label"><i class="fas fa-user"></i>Seu nome</label><input class="form-input" type="text" placeholder="Ex: Maria Silva" id="f-nome"></div>
@@ -758,11 +910,11 @@
     <div class="footer-col">
       <h4>Modalidades</h4>
       <ul>
-        <li><a href="newhit-funcional-lp.html">Treino Funcional</a></li>
-        <li><a href="#">Jiu-Jitsu</a></li>
-        <li><a href="#">Boxe</a></li>
-        <li><a href="newhit-pilates-lp.html">Pilates</a></li>
-        <li><a href="newhit-lutas-infantil-lp.html">Lutas Infantil</a></li>
+        <li><a href="funcional.html">Treino Funcional</a></li>
+        <li><a href="kids.html">Jiu-Jitsu</a></li>
+        <li><a href="kids.html">Boxe</a></li>
+        <li><a href="pilates.html">Pilates</a></li>
+        <li><a href="kids.html">Lutas Infantil</a></li>
       </ul>
     </div>
     <div class="footer-col">
@@ -800,6 +952,20 @@
     const msg = `Olá! Me chamo ${nome} e quero agendar minha aula experimental grátis. Tenho interesse em: ${mod || 'não informado'}.`;
     window.open(`https://wa.me/5561999999999?text=${encodeURIComponent(msg)}`, '_blank');
   }
+  // WhatsApp → scroll para formulário
+  document.querySelectorAll('a[href*="wa.me"]').forEach(function(a) {
+    a.addEventListener('click', function(e) {
+      e.preventDefault();
+      document.getElementById('experimental').scrollIntoView({behavior:'smooth'});
+      setTimeout(function() {
+        var n = document.getElementById('wa-notice');
+        if (n) {
+          n.classList.add('show');
+          setTimeout(function(){ n.classList.remove('show'); }, 6000);
+        }
+      }, 700);
+    });
+  });
 </script>
 </body>
 </html>

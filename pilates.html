@@ -32,7 +32,7 @@
     overflow-x: hidden;
   }
 
-  ::-webkit-scrollbar { width: 3px; }
+  ::-webkit-scrollbar { width: 8px; }
   ::-webkit-scrollbar-track { background: var(--dark); }
   ::-webkit-scrollbar-thumb { background: var(--orange); }
 
@@ -1133,6 +1133,37 @@
   }
   .reveal-right.visible { opacity: 1; transform: translateX(0); }
 
+  /* ─── GRADE / AGENDA ─── */
+  .agenda { padding: 110px 64px; background: var(--dark2); position: relative; overflow: hidden; }
+  .agenda::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(to right, transparent, var(--orange), transparent); }
+  .agenda-inner { max-width: 900px; margin: 0 auto; }
+  .agenda-header { margin-bottom: 52px; }
+  .agenda-header .section-title { margin-top: 12px; }
+  .agenda-header p { margin-top: 16px; font-size: 15px; color: rgba(255,255,255,0.5); max-width: 520px; line-height: 1.75; font-weight: 300; }
+  .agenda-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; margin-bottom: 40px; }
+  .agenda-card { background: var(--dark3); padding: 32px 28px; border-bottom: 3px solid transparent; transition: all 0.3s; position: relative; overflow: hidden; }
+  .agenda-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--orange); transform: scaleX(0); transform-origin: left; transition: transform 0.4s; }
+  .agenda-card:hover { background: var(--dark4); }
+  .agenda-card:hover::before { transform: scaleX(1); }
+  .agenda-mod { font-family: 'Barlow Condensed', sans-serif; font-size: 22px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px; }
+  .agenda-mod em { font-style: italic; color: var(--orange); }
+  .agenda-tag { display: inline-block; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--orange); background: rgba(255,71,4,0.12); border: 1px solid rgba(255,71,4,0.25); padding: 3px 10px; margin-bottom: 20px; }
+  .agenda-slots { display: flex; flex-direction: column; gap: 10px; }
+  .agenda-slot { display: flex; align-items: flex-start; gap: 10px; }
+  .agenda-slot-days { font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--gray-light); min-width: 120px; padding-top: 1px; }
+  .agenda-slot-times { display: flex; flex-wrap: wrap; gap: 5px; }
+  .agenda-slot-time { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.7); padding: 4px 10px; }
+  .agenda-note { background: rgba(255,255,255,0.03); border-left: 3px solid rgba(255,71,4,0.3); padding: 16px 20px; margin-top: 2px; }
+  .agenda-note p { font-size: 13px; color: rgba(255,255,255,0.4); font-style: italic; line-height: 1.6; }
+  .agenda-note p strong { color: rgba(255,255,255,0.65); font-weight: 500; font-style: normal; }
+  .agenda-cta { display: flex; align-items: center; gap: 12px; margin-top: 36px; }
+  @media(max-width:960px){
+    .agenda { padding: 70px 24px; }
+    .agenda-grid { grid-template-columns: 1fr; }
+    .agenda-slot { flex-direction: column; gap: 4px; }
+    .agenda-slot-days { min-width: auto; }
+  }
+
   /* ─── MOBILE ─── */
   @media (max-width: 960px) {
     nav { padding: 16px 24px; }
@@ -1309,6 +1340,105 @@
           <span>Atenção individual garantida</span>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── AGENDA / GRADE HORÁRIA ─── -->
+<section class="agenda" id="agenda">
+  <div class="agenda-inner">
+    <div class="agenda-header reveal">
+      <span class="section-label">Quando treinar</span>
+      <h2 class="section-title">AGENDA<br><em>DE HORÁRIOS</em></h2>
+      <p>Horários flexíveis para encaixar na sua rotina. Consulte a disponibilidade e garanta sua vaga.</p>
+    </div>
+
+    <div class="agenda-grid">
+      <!-- Individual -->
+      <div class="agenda-card reveal d1">
+        <div class="agenda-mod">Pilates <em>Individual</em></div>
+        <span class="agenda-tag">1 pessoa</span>
+        <div class="agenda-slots">
+          <div class="agenda-slot">
+            <span class="agenda-slot-days">Seg / Qua / Sex</span>
+            <div class="agenda-slot-times">
+              <span class="agenda-slot-time">07h</span>
+              <span class="agenda-slot-time">08h</span>
+              <span class="agenda-slot-time">09h</span>
+              <span class="agenda-slot-time">18h</span>
+              <span class="agenda-slot-time">19h</span>
+            </div>
+          </div>
+          <div class="agenda-slot">
+            <span class="agenda-slot-days">Ter / Qui</span>
+            <div class="agenda-slot-times">
+              <span class="agenda-slot-time">07h</span>
+              <span class="agenda-slot-time">08h</span>
+              <span class="agenda-slot-time">09h</span>
+              <span class="agenda-slot-time">19h</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Duo -->
+      <div class="agenda-card reveal d2">
+        <div class="agenda-mod">Pilates <em>em Duo</em></div>
+        <span class="agenda-tag">2 pessoas</span>
+        <div class="agenda-slots">
+          <div class="agenda-slot">
+            <span class="agenda-slot-days">Seg / Qua / Sex</span>
+            <div class="agenda-slot-times">
+              <span class="agenda-slot-time">08h</span>
+              <span class="agenda-slot-time">10h</span>
+              <span class="agenda-slot-time">18h</span>
+              <span class="agenda-slot-time">20h</span>
+            </div>
+          </div>
+          <div class="agenda-slot">
+            <span class="agenda-slot-days">Ter / Qui</span>
+            <div class="agenda-slot-times">
+              <span class="agenda-slot-time">08h</span>
+              <span class="agenda-slot-time">10h</span>
+              <span class="agenda-slot-time">18h</span>
+              <span class="agenda-slot-time">19h</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Trio -->
+      <div class="agenda-card reveal d3">
+        <div class="agenda-mod">Pilates <em>em Trio</em></div>
+        <span class="agenda-tag">3 pessoas</span>
+        <div class="agenda-slots">
+          <div class="agenda-slot">
+            <span class="agenda-slot-days">Ter / Qui</span>
+            <div class="agenda-slot-times">
+              <span class="agenda-slot-time">09h</span>
+              <span class="agenda-slot-time">10h</span>
+              <span class="agenda-slot-time">19h</span>
+              <span class="agenda-slot-time">20h</span>
+            </div>
+          </div>
+          <div class="agenda-slot">
+            <span class="agenda-slot-days">Sábado</span>
+            <div class="agenda-slot-times">
+              <span class="agenda-slot-time">08h</span>
+              <span class="agenda-slot-time">09h</span>
+              <span class="agenda-slot-time">10h</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="agenda-note reveal">
+      <p><strong>Os horários acima são uma referência.</strong> Após o agendamento, a instrutora confirma a disponibilidade real e pode adaptar conforme a sua rotina.</p>
+    </div>
+
+    <div class="agenda-cta reveal">
+      <a href="#cta" class="btn-primary" style="display:inline-flex;align-items:center;gap:8px"><i class="fas fa-calendar-check"></i> Garantir meu horário</a>
     </div>
   </div>
 </section>
@@ -1507,6 +1637,10 @@
       </div>
     </div>
     <div class="cta-form reveal-right">
+      <div id="wa-notice" class="wa-notice" style="display:none;align-items:center;gap:10px;background:rgba(37,211,102,0.1);border:1.5px solid rgba(37,211,102,0.3);border-left:4px solid #16a34a;padding:12px 16px;margin-bottom:16px;border-radius:0;">
+        <i class="fab fa-whatsapp" style="color:#16a34a;font-size:18px;flex-shrink:0"></i>
+        <p style="font-size:13px;color:rgba(255,255,255,0.85);font-weight:500;line-height:1.4">Preencha o formulário abaixo e nossa equipe entra em contato pelo WhatsApp!</p>
+      </div>
       <div class="form-title">Agende sua aula grátis</div>
       <p class="form-subtitle">Responderemos em até 2 horas em horário comercial</p>
       <div class="form-group">
@@ -1596,6 +1730,21 @@
     const msg = `Olá! Me chamo ${name}, vi o site e quero agendar minha aula experimental de Pilates grátis. Meu objetivo: ${goal || 'não informado'}.`;
     window.open(`https://wa.me/5561999999999?text=${encodeURIComponent(msg)}`, '_blank');
   }
+
+  // WhatsApp → scroll para formulário
+  document.querySelectorAll('a[href*="wa.me"]').forEach(function(a) {
+    a.addEventListener('click', function(e) {
+      e.preventDefault();
+      document.getElementById('cta').scrollIntoView({behavior:'smooth'});
+      setTimeout(function() {
+        var n = document.getElementById('wa-notice');
+        if (n) {
+          n.style.display = 'flex';
+          setTimeout(function(){ n.style.display = 'none'; }, 6000);
+        }
+      }, 700);
+    });
+  });
 </script>
 </body>
 </html>

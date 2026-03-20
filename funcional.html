@@ -28,7 +28,7 @@
   * { margin:0; padding:0; box-sizing:border-box; }
   html { scroll-behavior:smooth; }
   body { font-family:'Barlow',sans-serif; background:var(--cream); color:var(--ink); overflow-x:hidden; }
-  ::-webkit-scrollbar { width:3px; }
+  ::-webkit-scrollbar { width:8px; }
   ::-webkit-scrollbar-track { background:var(--cream2); }
   ::-webkit-scrollbar-thumb { background:var(--orange); }
 
@@ -295,7 +295,32 @@
     .faq-left{position:static}
     footer{flex-direction:column;gap:16px;text-align:center;padding:28px 24px}
     .footer-links{flex-wrap:wrap;justify-content:center;gap:14px}
+    .pm-section{padding:70px 24px}
+    .pm-inner{grid-template-columns:1fr;gap:40px}
+    .pm-top{flex-direction:column;gap:16px;margin-bottom:40px}
   }
+
+  /* ─── POR QUE SE MATRICULAR ─── */
+  .pm-section { padding:100px 64px; background:var(--cream2); }
+  .pm-top { display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:60px; gap:40px; flex-wrap:wrap; }
+  .pm-inner { display:grid; grid-template-columns:1fr 1fr; gap:72px; align-items:start; }
+  .pm-reasons { display:flex; flex-direction:column; }
+  .pm-reason { display:flex; align-items:flex-start; gap:20px; padding:24px 0; border-bottom:1px solid var(--cream3); }
+  .pm-reason:first-child { padding-top:0; }
+  .pm-reason:last-child { border-bottom:none; }
+  .pm-icon { width:46px; height:46px; min-width:46px; background:var(--orange-light); border:1px solid var(--orange-border); display:flex; align-items:center; justify-content:center; clip-path:polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,6px 100%,0 calc(100% - 6px)); }
+  .pm-icon i { color:var(--orange); font-size:17px; }
+  .pm-reason-title { font-family:'Barlow Condensed',sans-serif; font-size:20px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--ink); margin-bottom:4px; }
+  .pm-reason-desc { font-size:14px; color:var(--gray); line-height:1.65; }
+  .pm-photo-grid { display:grid; grid-template-columns:1fr 1fr; grid-template-rows:240px 240px; gap:10px; }
+  .pm-photo-slot { position:relative; overflow:hidden; background:var(--cream3); }
+  .pm-photo-slot.tall { grid-row:span 2; }
+  .pm-photo-slot img { width:100%; height:100%; object-fit:cover; display:block; }
+  .pm-placeholder { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; border:2px dashed var(--cream-dark); color:var(--gray-light); transition:all 0.2s; cursor:pointer; }
+  .pm-placeholder:hover { border-color:var(--orange-border); background:var(--orange-light); }
+  .pm-placeholder:hover i,.pm-placeholder:hover span { color:var(--orange); }
+  .pm-placeholder i { font-size:28px; }
+  .pm-placeholder span { font-size:10px; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; }
 </style>
 </head>
 <body>
@@ -332,7 +357,7 @@
     </div>
   </div>
   <div class="hero-right">
-    <img id="heroImg" src="https://images.unsplash.com/photo-1601422407692-ec4eeec1d9b3?w=1200&q=80" alt="Treino Funcional New Hit">
+    <img id="heroImg" src="aulao/NewHit_Aulão%20e%20Defesa-239.jpg" alt="Treino Funcional New Hit">
     <div class="hero-photo-stat">
       <div class="hps-num">4.9<span>★</span></div>
       <span class="hps-label">Avaliação dos alunos</span>
@@ -405,7 +430,7 @@
 <section class="metodo" id="metodo">
   <div class="met-inner">
     <div class="met-photo reveal-left">
-      <img src="https://images.unsplash.com/photo-1534367610401-9f5ed68180aa?w=800&q=80" alt="Método New Hit">
+      <img src="aulao/NewHit_Aulão%20e%20Defesa-29.jpg" alt="Método New Hit">
       <div class="met-photo-overlay"></div>
       <div class="met-badge">
         <div class="met-badge-icon"><i class="fas fa-chart-line"></i></div>
@@ -522,6 +547,60 @@
         <div class="comp-item"><i class="fas fa-check"></i><span>Progressão monitorada — <strong>o treino cresce com você</strong></span></div>
         <div class="comp-item"><i class="fas fa-check"></i><span>Professor que conhece seu nome e sua <strong>evolução</strong></span></div>
         <div class="comp-item"><i class="fas fa-check"></i><span>Resultado visível nas primeiras semanas</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── POR QUE SE MATRICULAR ─── -->
+<section class="pm-section" id="porque-matricular">
+  <div class="pm-top">
+    <div>
+      <span class="section-label">Razões para começar hoje</span>
+      <h2 class="section-title">POR QUE SE<br><em>MATRICULAR</em></h2>
+    </div>
+    <p style="max-width:380px;color:var(--gray);font-size:16px;line-height:1.7">Treino funcional que respeita o seu corpo, o seu tempo e entrega resultado de verdade — com acompanhamento real em cada aula.</p>
+  </div>
+  <div class="pm-inner">
+    <div class="pm-reasons">
+      <div class="pm-reason">
+        <div class="pm-icon"><i class="fas fa-user-check"></i></div>
+        <div>
+          <div class="pm-reason-title">Turmas Reduzidas com Correção Individual</div>
+          <p class="pm-reason-desc">Poucos alunos por turma para que o professor corrija sua postura e técnica — em cada repetição, em cada aula.</p>
+        </div>
+      </div>
+      <div class="pm-reason">
+        <div class="pm-icon"><i class="fas fa-sliders"></i></div>
+        <div>
+          <div class="pm-reason-title">Plano Progressivo Personalizado</div>
+          <p class="pm-reason-desc">Seu treino começa do seu nível atual e evolui conforme você avança. Sem copiar ficha de ninguém.</p>
+        </div>
+      </div>
+      <div class="pm-reason">
+        <div class="pm-icon"><i class="fas fa-bolt"></i></div>
+        <div>
+          <div class="pm-reason-title">Resultados Rápidos e Sustentáveis</div>
+          <p class="pm-reason-desc">Método que combina força, mobilidade e condicionamento para resultados que aparecem e ficam.</p>
+        </div>
+      </div>
+      <div class="pm-reason">
+        <div class="pm-icon"><i class="fas fa-people-group"></i></div>
+        <div>
+          <div class="pm-reason-title">Estrutura Completa e Ambiente Motivador</div>
+          <p class="pm-reason-desc">Espaço equipado, comunidade engajada e uma equipe que conhece você pelo nome — sem fila, sem impessoalidade.</p>
+        </div>
+      </div>
+    </div>
+    <div class="pm-photo-grid">
+      <div class="pm-photo-slot tall">
+        <img src="aulao/NewHit_Aulão%20e%20Defesa-70.jpg" alt="New Hit Aulão">
+      </div>
+      <div class="pm-photo-slot">
+        <img src="aulao/NewHit_Aulão%20e%20Defesa-65.jpg" alt="New Hit Aulão">
+      </div>
+      <div class="pm-photo-slot">
+        <img src="aulao/NewHit_Aulão%20e%20Defesa-56.jpg" alt="New Hit Aulão">
       </div>
     </div>
   </div>

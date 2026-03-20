@@ -29,7 +29,7 @@
   * { margin:0; padding:0; box-sizing:border-box; }
   html { scroll-behavior:smooth; }
   body { font-family:'Barlow',sans-serif; background:var(--cream); color:var(--ink); overflow-x:hidden; }
-  ::-webkit-scrollbar { width:3px; }
+  ::-webkit-scrollbar { width:8px; }
   ::-webkit-scrollbar-track { background:var(--cream2); }
   ::-webkit-scrollbar-thumb { background:var(--orange); }
 
@@ -396,11 +396,42 @@
   .reveal-right.visible { opacity:1; transform:translateX(0); }
   .d1{transition-delay:0.1s} .d2{transition-delay:0.22s} .d3{transition-delay:0.34s}
 
+  /* ─── SCROLL INDICATOR ─── */
+  .scroll-indicator {
+    position: absolute; bottom: 40px; left: 64px; z-index: 10;
+    display: flex; flex-direction: column; align-items: flex-start; gap: 10px;
+    cursor: pointer; opacity: 0; animation: fadeUp 0.8s 1.6s forwards;
+    text-decoration: none;
+  }
+  .si-label { font-size: 10px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; color: var(--gray); }
+  .si-btn {
+    width: 46px; height: 46px; border: 2px solid var(--orange-border); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--orange); font-size: 16px; background: rgba(255,71,4,0.04);
+    transition: all 0.3s; animation: scrollPulse 2s ease-in-out infinite;
+  }
+  .scroll-indicator:hover .si-btn { background: var(--orange); border-color: var(--orange); color: white; }
+  @keyframes scrollPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255,71,4,0.45); transform: translateY(0); }
+    50% { box-shadow: 0 0 0 12px rgba(255,71,4,0); transform: translateY(5px); }
+  }
+  /* ─── WA NOTICE ─── */
+  .wa-notice {
+    display: none; align-items: center; gap: 10px;
+    background: rgba(37,211,102,0.1); border: 1.5px solid rgba(37,211,102,0.3);
+    border-left: 4px solid #16a34a; padding: 12px 16px; margin-bottom: 16px;
+  }
+  .wa-notice.show { display: flex; animation: noticeIn 0.35s ease; }
+  @keyframes noticeIn { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
+  .wa-notice i { color: #16a34a; font-size: 18px; flex-shrink: 0; }
+  .wa-notice p { font-size: 13px; color: var(--ink); font-weight: 500; line-height: 1.4; }
+
   /* ─── MOBILE ─── */
   @media(max-width:960px){
     nav{padding:16px 20px} nav.scrolled{padding:12px 20px} .nav-links{display:none}
     .hero{grid-template-columns:1fr;min-height:auto}
     .hero-left{padding:120px 24px 56px} .hero-left::after{display:none}
+    .scroll-indicator{left:24px;bottom:24px}
     .hero-right{height:320px} .hero-ctas{flex-direction:column;align-items:flex-start}
     .proof-bar{gap:20px;padding:18px 24px;flex-wrap:wrap}
     .modalidades,.diferencial,.galeria,.depoimentos,.experimental,.localizacao{padding:70px 24px}
@@ -456,6 +487,10 @@
       <a href="#experimental" class="btn-primary"><i class="fas fa-calendar-check" style="margin-right:8px"></i>Aula Experimental Grátis</a>
       <a href="#modalidades" class="btn-outline"><i class="fas fa-arrow-down" style="margin-right:6px"></i> Ver modalidades</a>
     </div>
+    <a href="#modalidades" class="scroll-indicator" onclick="event.preventDefault();document.getElementById('modalidades').scrollIntoView({behavior:'smooth'})">
+      <span class="si-label">Explorar</span>
+      <div class="si-btn"><i class="fas fa-chevron-down"></i></div>
+    </a>
   </div>
   <div class="hero-right">
     <img id="heroImg" src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=1600&q=80" alt="New Hit Fitness">
@@ -718,6 +753,10 @@
       </div>
     </div>
     <div class="exp-form reveal-right">
+      <div id="wa-notice" class="wa-notice">
+        <i class="fab fa-whatsapp"></i>
+        <p>Preencha o formulário abaixo e nossa equipe entra em contato pelo WhatsApp!</p>
+      </div>
       <div class="form-title">Agende sua aula grátis</div>
       <p class="form-sub">Respondemos em até 2 horas em horário comercial</p>
       <div class="form-group">
@@ -856,6 +895,21 @@
     const msg = `Olá! Me chamo ${nome} e quero agendar minha aula experimental grátis. Tenho interesse em: ${mod || 'não informado'}.`;
     window.open(`https://wa.me/5561999999999?text=${encodeURIComponent(msg)}`, '_blank');
   }
+
+  // Interceptar botões WhatsApp → redirecionar para o formulário
+  document.querySelectorAll('a[href*="wa.me"]').forEach(function(a) {
+    a.addEventListener('click', function(e) {
+      e.preventDefault();
+      document.getElementById('experimental').scrollIntoView({behavior:'smooth'});
+      setTimeout(function() {
+        var n = document.getElementById('wa-notice');
+        if (n) {
+          n.classList.add('show');
+          setTimeout(function(){ n.classList.remove('show'); }, 6000);
+        }
+      }, 700);
+    });
+  });
 </script>
 </body>
 </html>
